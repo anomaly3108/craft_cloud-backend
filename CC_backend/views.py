@@ -6,32 +6,12 @@ from django.contrib.auth import authenticate
 import json
 # from django.contrib.auth.models import user, auth
 
-@api_view(['GET'])
-def show(request):
-    if request.method == 'GET':
-        result = testdata.objects.all()
-        serialize = serializationclass(result, many=True)
-        return Response(serialize.data)
-@api_view(['GET'])
-def display(request):
-    if request.method == 'GET':
-        result = displaydata.objects.all()
-        serialize = displayserialization(result, many=True)
-        return Response(serialize.data)
-
-
 @api_view(['POST'])
-def login(request):
+def signup(request):
     serializer = userSerializer(data=request.data)
-    print('ok')
     if serializer.is_valid():
         serializer.save()
-        print('data is: ',serializer.data)
     return Response('saved data')
-
-def submit(request):
-    print(request.POST)
-    return Response(serialize.data)
 
 @api_view(['POST'])
 def signin(request):
@@ -45,7 +25,45 @@ def signin(request):
             print(result)
             return Response(serialize.data)
         else:
-            return Response('password incorrect h')
+            return Response('password incorrect')
     else:
-        return Response('error1')
-        # {"username":"Aviral","password":"sharma"}
+        return Response('error')
+
+
+@api_view(['GET'])
+def show(request):
+    if request.method == 'GET':
+        result = testdata.objects.all()
+        serialize = serializationclass(result, many=True)
+        return Response(serialize.data)
+
+
+@api_view(['GET'])
+def users(request,uid):
+    if request.method == 'GET':
+        result = display_users.objects.filter(id=uid)
+        serialize = display_users_serialization(result, many=True)
+        return Response(serialize.data)
+
+
+@api_view(['GET'])
+def user_post(request):
+    if request.method == 'GET':
+        result = displaypost.objects.all()
+        serialize = upostSerializer(result, many=True)
+        return Response(serialize.data)
+
+
+@api_view(['POST'])
+def add_post(request):
+    serializer = addpostSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response('post added')
+
+@api_view(['GET'])
+def user_details(request, uid):
+    result = displaypost.objects.filter(user_id=uid)
+    serialize = upostSerializer(result, many=True)
+    return Response(serialize.data)
+    #do something with this user

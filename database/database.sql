@@ -190,8 +190,8 @@ CREATE TABLE IF NOT EXISTS `auth_user_user_permissions` (
 -- Table structure for table `display`
 --
 
-DROP TABLE IF EXISTS `display`;
-CREATE TABLE IF NOT EXISTS `display` (
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE IF NOT EXISTS `user` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
@@ -207,8 +207,6 @@ CREATE TABLE IF NOT EXISTS `display` (
 INSERT INTO `display` (`id`, `name`, `email`, `password`) VALUES
 (1, 'Aviral', 'aviralsharma205@gmail.com', 'aviral'),
 (2, 'sharma', 'sharma_aviral@ymail.com', 'sharma'),
-(10, 'Aviral sharma', 'nigga@niggin.com', 'aviral'),
-(9, 'Aviral Sharma', 'absia', 'aslsl');
 
 -- --------------------------------------------------------
 
