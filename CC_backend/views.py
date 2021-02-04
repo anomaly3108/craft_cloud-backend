@@ -17,10 +17,10 @@ def signup(request):
 def signin(request):
     if request.method=='POST':
         jsonResponse = json.loads(request.body.decode('utf-8'))
-        usern = jsonResponse['username']
+        usern = jsonResponse['email']
         passw = jsonResponse['password']
-        result = displaydata.objects.get(email=usern)
-        serialize = displayserialization(result, many=False)
+        result = display_users.objects.get(email=usern)
+        serialize = display_users_serialization(result, many=False)
         if(passw==result.password):
             print(result)
             return Response(serialize.data)
@@ -35,6 +35,14 @@ def show(request):
     if request.method == 'GET':
         result = testdata.objects.all()
         serialize = serializationclass(result, many=True)
+        return Response(serialize.data)
+
+
+@api_view(['GET'])
+def single_post(request,pid):
+    if request.method == 'GET':
+        result = displaypost.objects.filter(id=pid)
+        serialize = upostSerializer(result, many=True)
         return Response(serialize.data)
 
 
@@ -67,3 +75,10 @@ def user_details(request, uid):
     serialize = upostSerializer(result, many=True)
     return Response(serialize.data)
     #do something with this user
+
+
+@api_view(['GET'])
+def ratings(request, uid):
+    result = user_rating.objects.filter(user_id=uid)
+    serialize = ratingsserialization(result, many=True)
+    return Response(serialize.data)

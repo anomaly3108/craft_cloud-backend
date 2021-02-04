@@ -7,6 +7,11 @@ class serializationclass(serializers.ModelSerializer):
         model=testdata
         fields='__all__'
 
+class ratingsserialization(serializers.ModelSerializer):
+    class Meta:
+        model=user_rating
+        fields='__all__'
+
 class display_users_serialization(serializers.ModelSerializer):
     class Meta:
         model=display_users
