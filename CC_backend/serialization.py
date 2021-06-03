@@ -2,9 +2,14 @@ from rest_framework import serializers
 
 from .models import *
 
-class serializationclass(serializers.ModelSerializer):
+class user_type_serialization(serializers.ModelSerializer):
     class Meta:
-        model=testdata
+        model=user_type
+        fields='__all__'
+
+class user_login(serializers.ModelSerializer):
+    class Meta:
+        model=login
         fields='__all__'
 
 class ratingsserialization(serializers.ModelSerializer):
@@ -16,7 +21,6 @@ class display_users_serialization(serializers.ModelSerializer):
     class Meta:
         model=display_users
         fields='__all__'
-
 
 class userSerializer(serializers.ModelSerializer):
     
@@ -38,8 +42,27 @@ class addpostSerializer(serializers.ModelSerializer):
         model = displaypost
         fields = '__all__'
 
+class viewsingleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = singlepost
+        fields = '__all__'
 
 class upostSerializer(serializers.ModelSerializer):
     class Meta:
         model = displaypost
+        fields = '__all__'
+
+class vieworders(serializers.ModelSerializer):
+    class Meta:
+        model = orders
+        fields = '__all__'
+
+class add_order_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = add_order
+        fields = '__all__'
+
+class get_wallet(serializers.ModelSerializer):
+    class Meta:
+        model = user_wallet
         fields = '__all__'
