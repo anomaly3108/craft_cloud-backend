@@ -2,12 +2,16 @@ from django.db import models
 
 class user_type(models.Model):
     type_name=models.CharField(max_length=50)
+    price=models.CharField(max_length=10)
     class Meta:
         db_table='type'
 
 class login(models.Model):
+    name=models.CharField(max_length=50)
     email=models.CharField(max_length=50)
     password=models.CharField(max_length=50)
+    address=models.CharField(max_length=250)
+    user_type=models.CharField(max_length=50)
     class Meta:
         db_table='users'
 
@@ -16,8 +20,8 @@ class display_users(models.Model):
     email=models.CharField(max_length=50)
     password=models.CharField(max_length=50)
     user_type=models.CharField(max_length=50)
+    address=models.CharField(max_length=250)
     rating=models.CharField(max_length=50)
-    objects = models.Manager()
     class Meta:
         db_table='users','type'
 
@@ -65,6 +69,7 @@ class orders(models.Model):
 class add_order(models.Model):
     uid = models.CharField(max_length=50)
     pid = models.CharField(max_length=50)
+    sid = models.CharField(max_length=50)
     class Meta:
         db_table='orders'
 

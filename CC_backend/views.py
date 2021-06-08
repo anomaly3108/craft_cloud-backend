@@ -1,3 +1,4 @@
+import re
 from CC_backend.serialization import *
 from CC_backend.models import *
 from rest_framework.response import Response
@@ -11,9 +12,12 @@ import json
 @api_view(['POST'])
 def signup(request):
     serializer = userSerializer(data=request.data)
+    print(request.data)
     if serializer.is_valid():
         serializer.save()
-    return Response('saved data')
+        return Response('saved data')
+    else:
+        return Response('data incorrect')
 
 @api_view(['POST'])
 def signin(request):
@@ -24,7 +28,6 @@ def signin(request):
         result = login.objects.get(email=usern)
         serialize = user_login(result, many=False)
         if(passw==result.password):
-            print(result)
             return Response(serialize.data)
         else:
             return Response('password incorrect')
@@ -73,16 +76,19 @@ def user_post(request,type):
         serialize = upostSerializer(result, many=True)
         return Response(serialize.data)
 
+@api_view(['GET'])
+def search_post(request,type):
+    if request.method == 'GET':
+        result = displaypost.objects.raw('select * from posts where post_desc like "%%'+type+'%%" or post_title like "%%'+type+'%%";')
+        serialize = upostSerializer(result, many=True)
+        return Response(serialize.data)
+
 @api_view(['POST'])
 def add_post(request):
     serializer = addpostSerializer(data=request.data)
     print(request.data)
     if serializer.is_valid():
         serializer.save()
-        obj = displaypost.objects.latest('id')
-        t = displaypost.objects.get(id=obj.id)
-        t.post_price = 999  # send data from file 
-        t.save()
         return Response('post added')
     else:
         return Response('not saved')
@@ -162,3 +168,14 @@ def view_wallet(request, uid):
         result = user_wallet.objects.filter(uid=uid)
         serialize = get_wallet(result, many=True)
         return Response(serialize.data)
+
+
+@api_view(['POST'])
+def update_wallet(request):
+    price = request.data['price']
+    userid= request.data['uid']
+    sellerid = str(request.data['sid'])
+    result = user_wallet.objects.raw('Update wallet_transaction SET `amount`=`amount`+'+price+' where uid='+sellerid+';Update wallet_transaction SET `amount`=`amount`-'+price+' where uid='+userid)
+    serialize = get_wallet(result, many=True)
+    return Response('done')
+

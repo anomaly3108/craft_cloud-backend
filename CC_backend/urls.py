@@ -19,5 +19,6 @@ urlpatterns = [
     path('get_orders/<pid>', views.get_orders, name='get_orders'),
     path('add_orders', views.add_orders, name='add_orders'),
     path('wallet/<uid>', views.view_wallet, name='view_wallet'),
-
+    path('Search/<type>', views.search_post, name='search_post'),
+    path('transaction/', views.update_wallet, name='update_wallet'),
 ]
